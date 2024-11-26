@@ -3,7 +3,7 @@ const { Job } = require('../models');
 
 const router = express.Router();
 
-// Listar todos os jobs não pagos de um contrato
+
 router.get('/:contractId/unpaid-jobs', async (req, res) => {
   const { contractId } = req.params;
 

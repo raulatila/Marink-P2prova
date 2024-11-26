@@ -3,7 +3,7 @@ const { Profile, Contract } = require('../models');
 
 const router = express.Router();
 
-// Listar todos os contratos de um determinado perfil
+
 router.get('/:profileId/contracts', async (req, res) => {
   const { profileId } = req.params;
 
@@ -26,7 +26,7 @@ router.get('/:profileId/contracts', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error', details: error.message });
   }
-  // Realizar depósito para um perfil
+  
 router.post('/:profileId/deposit', async (req, res) => {
     const { profileId } = req.params;
     const { depositValue } = req.body;
@@ -42,11 +42,11 @@ router.post('/:profileId/deposit', async (req, res) => {
         return res.status(404).json({ error: 'Profile not found' });
       }
   
-      // Atualiza o saldo
+      
       profile.balance += depositValue;
       await profile.save();
   
-      // Cria um registro de depósito
+      
       await profile.createDeposit({
         clientId: profile.id,
         operationDate: new Date(),

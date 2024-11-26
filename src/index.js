@@ -4,7 +4,7 @@ const { sequelize, Profile, Contract, Job, Deposit } = require('./models');
 const app = express();
 app.use(express.json());
 
-// 1. Listar todos os Contracts de um Profile
+
 app.get('/profiles/:id/contracts', async (req, res) => {
   const { id } = req.params;
 
@@ -23,7 +23,7 @@ app.get('/profiles/:id/contracts', async (req, res) => {
   }
 });
 
-// 2. Realizar Deposit
+
 app.post('/profiles/:id/deposit', async (req, res) => {
   const { id } = req.params;
   const { depositValue } = req.body;
@@ -36,11 +36,11 @@ app.post('/profiles/:id/deposit', async (req, res) => {
     const profile = await Profile.findByPk(id);
     if (!profile) return res.status(404).json({ error: 'Profile not found' });
 
-    // Atualiza saldo do perfil
+  
     profile.balance += depositValue;
     await profile.save();
 
-    // Cria registro do depósito
+   
     await Deposit.create({
       clientId: id,
       depositValue,
@@ -53,7 +53,7 @@ app.post('/profiles/:id/deposit', async (req, res) => {
   }
 });
 
-// 3. Listar Jobs de um Contract que não foram pagos integralmente
+
 app.get('/contracts/:id/jobs/unpaid', async (req, res) => {
   const { id } = req.params;
 
@@ -72,10 +72,10 @@ app.get('/contracts/:id/jobs/unpaid', async (req, res) => {
   }
 });
 
-// Inicializar o servidor
+
 app.listen(3000, async () => {
   try {
-    await sequelize.sync(); // Sincroniza modelos com o banco de dados
+    await sequelize.sync(); 
     console.log('API rodando na porta 3000!');
   } catch (error) {
     console.error('Erro ao conectar ao banco de dados:', error.message);
