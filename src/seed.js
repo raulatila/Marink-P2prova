@@ -4,7 +4,8 @@ const { sequelize, Profile, Contract, Job } = require('./models');
   try {
     await sequelize.sync({ force: true });
 
-    const profile = await Profile.create({
+    // Criando perfis
+    const client1 = await Profile.create({
       firstname: 'João',
       lastname: 'Silva',
       profession: 'Developer',
@@ -12,20 +13,54 @@ const { sequelize, Profile, Contract, Job } = require('./models');
       type: 'client',
     });
 
-    const contract = await Contract.create({
+    const client2 = await Profile.create({
+      firstname: 'Maria',
+      lastname: 'Oliveira',
+      profession: 'Designer',
+      balance: 500,
+      type: 'client',
+    });
+
+    const contractor = await Profile.create({
+      firstname: 'Carlos',
+      lastname: 'Almeida',
+      profession: 'Freelancer',
+      balance: 300,
+      type: 'contractor',
+    });
+
+    // Criando contratos
+    const contract1 = await Contract.create({
       terms: 'Contrato 1',
-      clientId: profile.id,
-      contractorId: profile.id,
+      clientId: client1.id,
+      contractorId: contractor.id,
       operationDate: new Date(),
       status: 'active',
     });
 
+    const contract2 = await Contract.create({
+      terms: 'Contrato 2',
+      clientId: client2.id,
+      contractorId: contractor.id,
+      operationDate: new Date(),
+      status: 'terminated',
+    });
+
+    // Criando jobs
     await Job.create({
-      contractId: contract.id,
+      contractId: contract1.id,
       description: 'Job 1',
       operationDate: new Date(),
       price: 200,
       paid: false,
+    });
+
+    await Job.create({
+      contractId: contract2.id,
+      description: 'Job 2',
+      operationDate: new Date(),
+      price: 300,
+      paid: true,
     });
 
     console.log('Dados criados com sucesso!');
