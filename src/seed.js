@@ -2,9 +2,17 @@ const { sequelize, Profile, Contract, Job } = require('./models');
 
 (async () => {
   try {
+    
+    const count = await Profile.count();
+    if (count > 0) {
+      console.log('Registros já existentes, seeder não executado');
+      return;
+    }
+
+    
     await sequelize.sync({ force: true });
 
-    // Criando perfis
+    
     const client1 = await Profile.create({
       firstname: 'João',
       lastname: 'Silva',
@@ -29,7 +37,7 @@ const { sequelize, Profile, Contract, Job } = require('./models');
       type: 'contractor',
     });
 
-    // Criando contratos
+   
     const contract1 = await Contract.create({
       terms: 'Contrato 1',
       clientId: client1.id,
@@ -46,7 +54,7 @@ const { sequelize, Profile, Contract, Job } = require('./models');
       status: 'terminated',
     });
 
-    // Criando jobs
+    
     await Job.create({
       contractId: contract1.id,
       description: 'Job 1',
